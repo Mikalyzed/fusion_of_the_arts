@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const NAV = [
   { href: "/art", label: "Art" },
@@ -10,12 +11,16 @@ const NAV = [
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/90 backdrop-blur">
-      <div className="mx-auto max-w-6xl px-6 py-5 flex items-center justify-between gap-6">
-        <Link
-          href="/"
-          className="text-sm font-medium tracking-[0.15em] uppercase"
-        >
-          Fusion of the Arts
+      <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between gap-6">
+        <Link href="/" aria-label="Fusion of the Arts — home" className="block">
+          <Image
+            src="/logo.svg"
+            alt="Fusion of the Arts"
+            width={130}
+            height={40}
+            priority
+            className="h-9 w-auto"
+          />
         </Link>
         <nav className="flex items-center gap-8">
           {NAV.map((item) => (

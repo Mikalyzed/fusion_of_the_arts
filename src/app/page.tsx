@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getArtworks } from "@/lib/supabase/queries";
 import { ArtworkCard } from "@/components/ArtworkCard";
 
@@ -33,21 +34,21 @@ export default async function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="mx-auto max-w-6xl px-6 min-h-[70vh] flex items-center py-24">
-        <div className="max-w-3xl">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-500">
-            Original Art · Curated Collection
+      <section className="mx-auto max-w-6xl px-6 min-h-[75vh] flex items-center py-24">
+        <div className="max-w-3xl w-full">
+          <Image
+            src="/logo.svg"
+            alt="Fusion of the Arts"
+            width={1200}
+            height={372}
+            priority
+            className="w-full max-w-[560px] h-auto"
+          />
+          <p className="mt-12 text-lg text-zinc-600 max-w-xl leading-relaxed">
+            Original paintings, mixed-media, and prints from working artists.
+            Browse the collection online or visit the gallery.
           </p>
-          <h1 className="mt-6 text-5xl md:text-7xl tracking-tight leading-[0.95] font-light">
-            Art, thoughtfully
-            <br />
-            curated.
-          </h1>
-          <p className="mt-8 text-lg text-zinc-600 max-w-xl leading-relaxed">
-            Paintings, mixed-media, and prints from working artists. Browse the
-            collection online or visit the gallery.
-          </p>
-          <div className="mt-12 flex flex-wrap gap-3">
+          <div className="mt-10 flex flex-wrap gap-3">
             <Link
               href="/art"
               className="inline-flex items-center px-7 py-3.5 border border-zinc-900 text-[11px] tracking-[0.25em] uppercase hover:bg-zinc-900 hover:text-white transition-colors"
