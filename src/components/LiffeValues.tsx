@@ -40,8 +40,9 @@ export function LiffeValues() {
   const value = VALUES[selected];
 
   return (
-    <div>
-      <div className="flex items-end gap-6 sm:gap-10 md:gap-14">
+    <div className="w-full">
+      {/* Oversized LIFFE row */}
+      <div className="flex items-end justify-between gap-2 sm:gap-4 w-full">
         {VALUES.map((v, i) => {
           const isActive = i === selected;
           return (
@@ -49,30 +50,44 @@ export function LiffeValues() {
               key={i}
               type="button"
               onClick={() => setSelected(i)}
-              aria-pressed={isActive}
+              onMouseEnter={() => setSelected(i)}
+              onFocus={() => setSelected(i)}
               aria-label={v.title}
-              className={`relative text-5xl sm:text-6xl md:text-7xl font-light leading-none transition-colors cursor-pointer focus:outline-none ${
-                isActive
-                  ? "text-zinc-900"
-                  : "text-zinc-300 hover:text-zinc-500"
-              }`}
+              aria-pressed={isActive}
+              className="group relative flex-1 text-center cursor-pointer focus:outline-none"
             >
-              {v.letter}
               <span
-                className={`absolute -bottom-3 left-0 right-0 h-px transition-colors ${
-                  isActive ? "bg-zinc-900" : "bg-transparent"
+                className={`block text-6xl sm:text-8xl md:text-9xl font-light leading-none transition-colors duration-500 ${
+                  isActive ? "text-zinc-900" : "text-zinc-200 group-hover:text-zinc-400"
+                }`}
+              >
+                {v.letter}
+              </span>
+              <span
+                className={`mt-4 block h-px mx-auto transition-all duration-500 ${
+                  isActive ? "w-8 bg-zinc-900" : "w-0 bg-transparent"
                 }`}
               />
+              <span
+                className={`mt-3 block text-[10px] tracking-[0.3em] uppercase transition-opacity duration-300 ${
+                  isActive
+                    ? "opacity-100 text-zinc-900"
+                    : "opacity-0 group-hover:opacity-50 text-zinc-500"
+                }`}
+              >
+                {v.title}
+              </span>
             </button>
           );
         })}
       </div>
 
-      <div className="mt-12 min-h-[7rem] max-w-2xl">
-        <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-500">
-          {value.title}
-        </p>
-        <p className="mt-3 text-zinc-700 leading-relaxed text-[15px]">
+      {/* Description (re-keyed so it fades in on change) */}
+      <div
+        key={selected}
+        className="mt-12 md:mt-16 max-w-2xl mx-auto text-center animate-fade-up"
+      >
+        <p className="text-zinc-700 leading-relaxed text-[15px] md:text-base">
           {value.body}
         </p>
       </div>

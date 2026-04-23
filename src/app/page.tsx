@@ -49,22 +49,21 @@ export default async function HomePage() {
       </section>
 
       {/* LIFFE — interactive values */}
-      <section className="mx-auto max-w-6xl px-6 py-20 border-t border-zinc-200">
-        <div className="grid md:grid-cols-[1fr_1.2fr] gap-10 md:gap-16 items-start">
-          <div>
-            <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-500">
-              Behind the gallery
-            </p>
-            <h2 className="mt-3 text-3xl md:text-4xl tracking-tight font-light leading-tight">
-              Art, guided by LIFFE.
-            </h2>
-            <p className="mt-5 text-zinc-600 leading-relaxed max-w-md">
-              Five principles shape every piece we choose, every artist we
-              represent, and every conversation we have. Select a letter.
-            </p>
-          </div>
-          <LiffeValues />
+      <section className="mx-auto max-w-6xl px-6 py-24 md:py-28 border-t border-zinc-200">
+        <div className="text-center max-w-2xl mx-auto mb-16 md:mb-20">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-500">
+            Behind the gallery
+          </p>
+          <h2 className="mt-3 text-3xl md:text-4xl tracking-tight font-light leading-tight">
+            Art, guided by LIFFE.
+          </h2>
+          <p className="mt-5 text-zinc-600 leading-relaxed">
+            Five principles shape every piece we choose and every artist we
+            represent.
+          </p>
         </div>
+
+        <LiffeValues />
       </section>
 
       {/* Featured available */}
