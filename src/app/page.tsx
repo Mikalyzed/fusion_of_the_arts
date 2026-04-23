@@ -5,21 +5,36 @@ import { ArtworkCard } from "@/components/ArtworkCard";
 
 export const revalidate = 60;
 
-const PROCESS = [
+const VALUES = [
   {
-    n: "01",
-    title: "Browse the collection",
-    body: "Explore available works from our roster of painters, mixed-media artists, and printmakers.",
+    letter: "L",
+    title: "Love",
+    body:
+      "At Mikalyzed, we believe in building strong, lasting relationships with our clients and community. Our commitment is rooted in love — love for what we do, love for the people we serve, and love for the impact we make together. We strive to infuse every interaction with care, integrity, and dedication, ensuring our services not only meet but exceed your expectations.",
   },
   {
-    n: "02",
-    title: "Inquire",
-    body: "Reach out about any piece that speaks to you. We'll share provenance, dimensions, and availability.",
+    letter: "I",
+    title: "Integrity",
+    body:
+      "Integrity is the cornerstone of everything we do. Our business is built on honesty, transparency, and ethical conduct. We are dedicated to delivering quality and value while upholding the highest standards of integrity in all our interactions. Trust us to be your reliable partner, committed to fostering relationships as strong and enduring as the values we cherish.",
   },
   {
-    n: "03",
-    title: "Visit or ship",
-    body: "Arrange a gallery viewing, pickup, or delivery to your space worldwide.",
+    letter: "F",
+    title: "Faith",
+    body:
+      "Faith is at the heart of Mikalyzed. Our actions and decisions are driven by a deep belief in our mission and values. We operate with integrity, compassion, and respect, ensuring our business practices reflect our core principles. With faith guiding us, we aim to create positive impacts and build lasting relationships with our clients and community.",
+  },
+  {
+    letter: "F",
+    title: "Family",
+    body:
+      "Family is the cornerstone of Mikalyzed. We treat our clients and team members with the same care and respect as family, fostering a supportive and trusting environment. Join us and experience the difference a family-oriented business can make, where you are valued and appreciated.",
+  },
+  {
+    letter: "E",
+    title: "Excellence",
+    body:
+      "Excellence is not just a goal; it's our standard. We are committed to continuously improving and pushing the boundaries of what's possible. Our dedication to excellence drives us to deliver outstanding products and services, consistently exceeding our clients' expectations. Every detail matters.",
   },
 ];
 
@@ -65,20 +80,38 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="mx-auto max-w-6xl px-6 py-20 border-t border-zinc-200">
-        <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-500">
-          How it works
-        </p>
-        <div className="mt-10 grid md:grid-cols-3 gap-10 md:gap-16">
-          {PROCESS.map((step) => (
-            <div key={step.n}>
-              <p className="text-4xl font-light text-zinc-300">{step.n}</p>
-              <h3 className="mt-4 text-base font-medium tracking-tight">
-                {step.title}
-              </h3>
-              <p className="mt-2 text-sm text-zinc-600 leading-relaxed">
-                {step.body}
+      {/* Values — LIFFE */}
+      <section className="mx-auto max-w-6xl px-6 py-24 border-t border-zinc-200">
+        <div className="max-w-2xl">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-500">
+            Our values
+          </p>
+          <h2 className="mt-3 text-3xl md:text-4xl tracking-tight font-light leading-tight">
+            Love, Integrity, Faith,
+            <br className="hidden sm:block" /> Family, Excellence.
+          </h2>
+          <p className="mt-5 text-zinc-600 leading-relaxed">
+            Five principles that guide how we run the gallery and treat the
+            people we work with.
+          </p>
+        </div>
+
+        <div className="mt-16 divide-y divide-zinc-100 border-t border-zinc-100">
+          {VALUES.map((v, i) => (
+            <div
+              key={i}
+              className="grid md:grid-cols-[auto_1fr] gap-6 md:gap-16 py-12"
+            >
+              <div className="md:w-56">
+                <p className="text-7xl font-light text-zinc-300 leading-none">
+                  {v.letter}
+                </p>
+                <h3 className="mt-5 text-[11px] tracking-[0.3em] uppercase font-medium text-zinc-900">
+                  {v.title}
+                </h3>
+              </div>
+              <p className="text-zinc-700 leading-relaxed text-[15px] max-w-2xl">
+                {v.body}
               </p>
             </div>
           ))}
