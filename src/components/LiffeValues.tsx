@@ -7,31 +7,31 @@ const VALUES = [
     letter: "L",
     title: "Love",
     body:
-      "Love for the craft drives every artist we represent — and shapes how we introduce their work to the people who live with it.",
+      "Love for the craft drives every artist we represent — and shapes how we introduce their work to the people who live with it. We fall for pieces before we sell them, and that affection is the first filter everything passes through.",
   },
   {
     letter: "I",
     title: "Integrity",
     body:
-      "Every piece arrives with honest provenance, honest pricing, and honest conversation about why it exists.",
+      "Every piece arrives with honest provenance, honest pricing, and honest conversation about why it exists. If a work's story has gaps, we tell you. If a piece isn't right for your space, we'll say so and point you somewhere that is.",
   },
   {
     letter: "F",
     title: "Faith",
     body:
-      "Faith in an artist's vision — especially early, before the work has met its audience — is the core of what a gallery is for.",
+      "Faith in an artist's vision — especially early, before the work has met its audience — is the core of what a gallery is for. We take chances on the quiet voices and stay with them through the slow seasons, because the best pieces are usually made before anyone is watching.",
   },
   {
     letter: "F",
     title: "Family",
     body:
-      "Relationships with our artists and collectors that outlast any single sale. We are in this for the long run.",
+      "Relationships with our artists and collectors that outlast any single sale. We return calls years later, visit studios, and track where pieces end up. That continuity is how we want to work — with you, and with the artists whose work ends up on your walls.",
   },
   {
     letter: "E",
     title: "Excellence",
     body:
-      "A rigorous eye on every piece we choose to represent, and on every detail of how we deliver it to you.",
+      "A rigorous eye on every piece we choose to represent, and on every detail of how we deliver it. From framing and installation to documentation and aftercare, the work doesn't end when the piece leaves the gallery — it begins there, for the rest of its life in your space.",
   },
 ];
 
