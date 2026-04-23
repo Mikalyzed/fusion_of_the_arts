@@ -9,17 +9,20 @@ const NAV = [
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-zinc-200 bg-white">
+    <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/90 backdrop-blur">
       <div className="mx-auto max-w-6xl px-6 py-5 flex items-center justify-between gap-6">
-        <Link href="/" className="font-serif text-xl tracking-tight">
+        <Link
+          href="/"
+          className="text-sm font-medium tracking-[0.15em] uppercase"
+        >
           Fusion of the Arts
         </Link>
-        <nav className="flex items-center gap-6 text-sm text-zinc-700">
+        <nav className="flex items-center gap-8">
           {NAV.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="hover:text-zinc-950 transition-colors"
+              className="text-[11px] tracking-[0.2em] uppercase text-zinc-600 hover:text-zinc-950 transition-colors"
             >
               {item.label}
             </Link>

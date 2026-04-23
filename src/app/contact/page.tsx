@@ -5,9 +5,14 @@ export const metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="mx-auto max-w-2xl px-6 py-16">
-      <h1 className="font-serif text-4xl tracking-tight">Contact</h1>
-      <p className="mt-4 text-zinc-700 leading-relaxed">
+    <div className="mx-auto max-w-2xl px-6 py-20">
+      <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-500">
+        Get in touch
+      </p>
+      <h1 className="mt-3 text-4xl md:text-5xl tracking-tight font-light">
+        Contact
+      </h1>
+      <p className="mt-8 text-zinc-700 leading-relaxed">
         Questions about a piece, visiting the gallery, or consigning your work?
         Reach us by email.
       </p>
@@ -19,8 +24,8 @@ export default function ContactPage() {
           hello@fusionofthearts.com
         </a>
       </p>
-      <p className="mt-8 text-sm text-zinc-500">
-        An inquiry form is coming soon.
+      <p className="mt-12 text-[11px] tracking-[0.25em] uppercase text-zinc-400">
+        Inquiry form coming soon
       </p>
     </div>
   );

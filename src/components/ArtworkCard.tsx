@@ -8,30 +8,34 @@ export function ArtworkCard({ artwork }: { artwork: ArtworkCardData }) {
 
   return (
     <Link href={`/art/${artwork.slug}`} className="group block">
-      <div className="relative aspect-[4/5] bg-zinc-100 overflow-hidden">
+      <div className="relative aspect-[4/5] bg-zinc-50 overflow-hidden">
         {artwork.cover?.public_url ? (
           <Image
             src={artwork.cover.public_url}
             alt={artwork.cover.alt_text ?? artwork.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+            className="object-cover"
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-zinc-400 text-sm">
+          <div className="absolute inset-0 flex items-center justify-center text-zinc-400 text-xs tracking-widest uppercase">
             No image
           </div>
         )}
         {isSold && (
-          <span className="absolute top-3 left-3 bg-white/95 text-zinc-900 text-[10px] tracking-[0.2em] uppercase px-2 py-1">
+          <span className="absolute top-4 left-4 bg-white text-zinc-900 text-[10px] tracking-[0.25em] uppercase px-2.5 py-1">
             Sold
           </span>
         )}
       </div>
-      <div className="mt-3">
-        <h3 className="font-serif text-lg leading-tight">{artwork.title}</h3>
-        <p className="text-sm text-zinc-600 mt-0.5">{artwork.artist.full_name}</p>
-        <p className="text-sm text-zinc-900 mt-1">
+      <div className="mt-4">
+        <h3 className="text-[15px] leading-tight text-zinc-900 group-hover:underline underline-offset-4 decoration-zinc-300">
+          {artwork.title}
+        </h3>
+        <p className="text-[13px] text-zinc-500 mt-1">
+          {artwork.artist.full_name}
+        </p>
+        <p className="text-[12px] tracking-[0.1em] uppercase text-zinc-700 mt-3">
           {isSold ? "Sold" : formatPriceCents(artwork.price_cents)}
         </p>
       </div>

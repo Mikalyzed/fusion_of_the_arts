@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Cormorant_Garamond } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
-const geistSans = Geist({
+const geist = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-});
-
-const serif = Cormorant_Garamond({
-  variable: "--font-serif",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -20,7 +15,7 @@ export const metadata: Metadata = {
     default: "Fusion of the Arts",
     template: "%s — Fusion of the Arts",
   },
-  description: "Original paintings, prints, and mixed-media works.",
+  description: "Original art from working artists. Paintings, mixed-media, and prints.",
 };
 
 export default function RootLayout({
@@ -29,7 +24,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${serif.variable} h-full antialiased`}
+      className={`${geist.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-white text-zinc-900">
         <SiteHeader />
