@@ -8,7 +8,7 @@ export function ArtworkCard({ artwork }: { artwork: ArtworkCardData }) {
 
   return (
     <Link href={`/art/${artwork.slug}`} className="group block">
-      <div className="relative aspect-[4/5] bg-zinc-50 overflow-hidden">
+      <div className="relative aspect-square bg-zinc-50 overflow-hidden">
         {artwork.cover?.public_url ? (
           <Image
             src={artwork.cover.public_url}

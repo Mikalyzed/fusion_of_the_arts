@@ -50,14 +50,14 @@ export default async function ArtworkPage({
       <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16">
         <div className="space-y-4">
           {artwork.images.length === 0 ? (
-            <div className="aspect-[4/5] bg-zinc-50 flex items-center justify-center text-zinc-400 text-xs tracking-widest uppercase">
+            <div className="aspect-square bg-zinc-50 flex items-center justify-center text-zinc-400 text-xs tracking-widest uppercase">
               No image
             </div>
           ) : (
             artwork.images.map((img, idx) => (
               <div
                 key={idx}
-                className="relative aspect-[4/5] bg-zinc-50 overflow-hidden"
+                className="relative aspect-square bg-zinc-50 overflow-hidden"
               >
                 {img.public_url && (
                   <Image
