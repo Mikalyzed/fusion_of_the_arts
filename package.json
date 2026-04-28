@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "import-art": "node --env-file=.env.local scripts/import-art.mjs"
+    "import-art": "node --env-file=.env.local scripts/import-art.mjs",
+    "wipe-art": "node --env-file=.env.local scripts/wipe-art.mjs",
+    "reset-art": "npm run wipe-art && npm run import-art"
   },
   "dependencies": {
     "@supabase/ssr": "^0.10.2",

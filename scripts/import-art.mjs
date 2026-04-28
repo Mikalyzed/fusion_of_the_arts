@@ -119,7 +119,7 @@ async function main() {
         slug,
         title: baseName,
         artist_id: artistId,
-        status: "draft",
+        status: "available",
         ownership: "owned",
         acquired_at: today,
       })

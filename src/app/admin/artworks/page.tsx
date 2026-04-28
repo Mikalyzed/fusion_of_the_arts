@@ -59,7 +59,7 @@ export default async function AdminArtworksPage() {
 
   return (
     <div>
-      <header className="flex items-end justify-between">
+      <header className="flex items-end justify-between gap-6">
         <div>
           <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-500">
             Inventory
@@ -68,19 +68,24 @@ export default async function AdminArtworksPage() {
             Artworks ({artworks.length})
           </h1>
         </div>
-        <div className="flex gap-2 text-[10px] tracking-[0.2em] uppercase">
-          {(
-            ["draft", "available", "reserved", "sold", "archived"] as const
-          ).map((s) =>
-            counts[s] ? (
-              <span
-                key={s}
-                className={`px-2 py-1 ${STATUS_COLOR[s]}`}
-              >
-                {s} · {counts[s]}
-              </span>
-            ) : null,
-          )}
+        <div className="flex items-center gap-3">
+          <div className="flex gap-2 text-[10px] tracking-[0.2em] uppercase">
+            {(
+              ["draft", "available", "reserved", "sold", "archived"] as const
+            ).map((s) =>
+              counts[s] ? (
+                <span key={s} className={`px-2 py-1 ${STATUS_COLOR[s]}`}>
+                  {s} · {counts[s]}
+                </span>
+              ) : null,
+            )}
+          </div>
+          <Link
+            href="/admin/artworks/new"
+            className="px-5 py-2.5 bg-zinc-900 text-white text-[11px] tracking-[0.25em] uppercase hover:bg-zinc-700 transition-colors whitespace-nowrap"
+          >
+            + New artwork
+          </Link>
         </div>
       </header>
 
@@ -129,7 +134,12 @@ export default async function AdminArtworksPage() {
                       </div>
                     </td>
                     <td className="py-2 px-2">
-                      <div className="font-medium text-zinc-900">{a.title}</div>
+                      <Link
+                        href={`/admin/artworks/${a.id}`}
+                        className="font-medium text-zinc-900 hover:underline underline-offset-4"
+                      >
+                        {a.title}
+                      </Link>
                       <div className="text-xs text-zinc-500">/{a.slug}</div>
                     </td>
                     <td className="py-2 px-2 text-zinc-700">
@@ -152,11 +162,10 @@ export default async function AdminArtworksPage() {
                     </td>
                     <td className="py-2 px-4 text-right">
                       <Link
-                        href={`/art/${a.slug}`}
-                        target="_blank"
+                        href={`/admin/artworks/${a.id}`}
                         className="text-xs text-zinc-500 hover:text-zinc-900 underline-offset-4 hover:underline"
                       >
-                        view
+                        edit
                       </Link>
                     </td>
                   </tr>
