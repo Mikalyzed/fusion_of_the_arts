@@ -24,6 +24,9 @@ export default function AdminLayout({
             <Link href="/admin/artists" className="hover:text-zinc-950">
               Artists
             </Link>
+            <Link href="/admin/exhibitions" className="hover:text-zinc-950">
+              Exhibitions
+            </Link>
           </nav>
           <span className="ml-auto text-[10px] tracking-[0.2em] uppercase text-amber-700">
             Localhost only — no auth yet

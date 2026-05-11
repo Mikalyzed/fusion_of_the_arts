@@ -2,7 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 const NAV = [
-  { href: "/art", label: "Art" },
+  { href: "/exhibitions", label: "Exhibitions" },
+  { href: "/art", label: "Shop" },
   { href: "/artists", label: "Artists" },
   { href: "/sold", label: "Sold" },
   { href: "/contact", label: "Contact" },

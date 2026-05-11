@@ -150,6 +150,122 @@ export async function getArtists(): Promise<ArtistListItem[]> {
   return (data ?? []) as ArtistListItem[];
 }
 
+export type Exhibition = {
+  id: string;
+  slug: string;
+  title: string;
+  curator: string | null;
+  collaboration: string | null;
+  statement: string | null;
+  hero_image_url: string | null;
+  starts_at: string;
+  ends_at: string;
+};
+
+export type ExhibitionWithWorks = Exhibition & {
+  works: ArtworkCardData[];
+};
+
+function classify(starts: string, ends: string): "upcoming" | "current" | "past" {
+  const today = new Date().toISOString().slice(0, 10);
+  if (today < starts) return "upcoming";
+  if (today > ends) return "past";
+  return "current";
+}
+
+const EXHIBITION_FIELDS =
+  "id, slug, title, curator, collaboration, statement, hero_image_url, starts_at, ends_at";
+
+export async function getCurrentExhibition(): Promise<Exhibition | null> {
+  const supabase = await createClient();
+  const today = new Date().toISOString().slice(0, 10);
+  const { data, error } = await supabase
+    .from("exhibitions")
+    .select(EXHIBITION_FIELDS)
+    .lte("starts_at", today)
+    .gte("ends_at", today)
+    .order("starts_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (error) throw error;
+  return (data as Exhibition | null) ?? null;
+}
+
+export async function getExhibitions(): Promise<
+  Array<Exhibition & { phase: "upcoming" | "current" | "past" }>
+> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("exhibitions")
+    .select(EXHIBITION_FIELDS)
+    .order("starts_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []).map((e) => ({
+    ...(e as Exhibition),
+    phase: classify(
+      (e as Exhibition).starts_at,
+      (e as Exhibition).ends_at,
+    ),
+  }));
+}
+
+export async function getExhibitionBySlug(
+  slug: string,
+): Promise<ExhibitionWithWorks | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("exhibitions")
+    .select(
+      `
+      ${EXHIBITION_FIELDS},
+      exhibition_artworks(
+        position,
+        artwork:artworks(
+          id, slug, title, price_cents, status,
+          artist:artists!inner(id, slug, full_name),
+          artwork_images(public_url, alt_text, is_cover, position)
+        )
+      )
+      `,
+    )
+    .eq("slug", slug)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) return null;
+
+  const row = data as Record<string, unknown>;
+  const rawJoins =
+    (row.exhibition_artworks as Array<Record<string, unknown>>) ?? [];
+  const works: ArtworkCardData[] = rawJoins
+    .map((join) => join.artwork as Record<string, unknown> | null)
+    .filter((a): a is Record<string, unknown> => !!a)
+    .filter(
+      (a) => a.status === "available" || a.status === "sold",
+    )
+    .map((a) => ({
+      id: a.id as string,
+      slug: a.slug as string,
+      title: a.title as string,
+      artist: a.artist as ArtistSummary,
+      price_cents: (a.price_cents as number | null) ?? null,
+      status: a.status as PublicStatus,
+      cover: pickCover(a.artwork_images as ArtworkImage[]),
+    }));
+
+  return {
+    id: row.id as string,
+    slug: row.slug as string,
+    title: row.title as string,
+    curator: (row.curator as string | null) ?? null,
+    collaboration: (row.collaboration as string | null) ?? null,
+    statement: (row.statement as string | null) ?? null,
+    hero_image_url: (row.hero_image_url as string | null) ?? null,
+    starts_at: row.starts_at as string,
+    ends_at: row.ends_at as string,
+    works,
+  };
+}
+
 export async function getArtistBySlug(slug: string): Promise<ArtistDetail | null> {
   const supabase = await createClient();
   const { data, error } = await supabase
