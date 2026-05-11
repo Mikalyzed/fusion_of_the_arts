@@ -120,6 +120,27 @@ export async function createArtwork(formData: FormData) {
     if (imgErr) throw imgErr;
   }
 
+  // Auto-attach to the currently running exhibition, if any.
+  const today = new Date().toISOString().slice(0, 10);
+  const { data: currentEx } = await supabase
+    .from("exhibitions")
+    .select("id, slug")
+    .lte("starts_at", today)
+    .gte("ends_at", today)
+    .eq("is_published", true)
+    .order("starts_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (currentEx) {
+    await supabase
+      .from("exhibition_artworks")
+      .upsert(
+        { exhibition_id: currentEx.id, artwork_id: artwork.id, position: 0 },
+        { onConflict: "exhibition_id,artwork_id" },
+      );
+    revalidatePath(`/exhibitions/${currentEx.slug}`);
+  }
+
   revalidatePath("/admin/artworks");
   revalidatePath("/art");
   revalidatePath("/sold");

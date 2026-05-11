@@ -90,6 +90,21 @@ async function main() {
   console.log(`Found ${files.length} image(s) in ${ART_DIR}`);
   const artistId = await ensurePlaceholderArtist();
 
+  // Look up the currently running, published exhibition once.
+  const today = new Date().toISOString().slice(0, 10);
+  const { data: currentEx } = await supabase
+    .from("exhibitions")
+    .select("id, title")
+    .lte("starts_at", today)
+    .gte("ends_at", today)
+    .eq("is_published", true)
+    .order("starts_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (currentEx) {
+    console.log(`Auto-attaching new works to: ${currentEx.title}`);
+  }
+
   let imported = 0;
   let skipped = 0;
 
@@ -141,6 +156,17 @@ async function main() {
     if (imgErr) {
       console.error(`FAIL  ${file} (image insert): ${imgErr.message}`);
       continue;
+    }
+
+    if (currentEx) {
+      await supabase.from("exhibition_artworks").upsert(
+        {
+          exhibition_id: currentEx.id,
+          artwork_id: artwork.id,
+          position: 0,
+        },
+        { onConflict: "exhibition_id,artwork_id" },
+      );
     }
 
     console.log(`OK    ${file}  →  ${artwork.slug}`);
