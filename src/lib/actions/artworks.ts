@@ -45,6 +45,48 @@ async function uniqueArtworkSlug(
   throw new Error(`Could not find unique slug for ${base}`);
 }
 
+async function uniqueArtistSlug(
+  supabase: ReturnType<typeof createAdminClient>,
+  base: string,
+) {
+  let candidate = base;
+  let i = 2;
+  for (let tries = 0; tries < 50; tries++) {
+    const { data } = await supabase
+      .from("artists")
+      .select("id")
+      .eq("slug", candidate)
+      .maybeSingle();
+    if (!data) return candidate;
+    candidate = `${base}-${i++}`;
+  }
+  throw new Error(`Could not find unique slug for ${base}`);
+}
+
+// If a new artist name was supplied, create the artist and return its id.
+// Otherwise, return the selected artist_id. Throws if neither is provided.
+async function resolveArtistId(
+  supabase: ReturnType<typeof createAdminClient>,
+  formData: FormData,
+): Promise<string> {
+  const newName = field(formData, "new_artist_name");
+  if (newName) {
+    const slug = await uniqueArtistSlug(supabase, slugify(newName));
+    const { data, error } = await supabase
+      .from("artists")
+      .insert({ slug, full_name: newName })
+      .select("id")
+      .single();
+    if (error) throw error;
+    revalidatePath("/admin/artists");
+    revalidatePath("/artists");
+    return data.id;
+  }
+  const id = field(formData, "artist_id");
+  if (!id) throw new Error("Pick an artist or type a new name");
+  return id;
+}
+
 const STATUS_VALUES = ["draft", "available", "reserved", "sold", "archived"] as const;
 const OWNERSHIP_VALUES = ["owned", "consignment"] as const;
 
@@ -72,8 +114,7 @@ export async function createArtwork(formData: FormData) {
 
   const title = field(formData, "title");
   if (!title) throw new Error("Title is required");
-  const artistId = field(formData, "artist_id");
-  if (!artistId) throw new Error("Artist is required");
+  const artistId = await resolveArtistId(supabase, formData);
 
   const baseSlug = field(formData, "slug") ?? slugify(title);
   const slug = await uniqueArtworkSlug(supabase, baseSlug);
@@ -152,8 +193,7 @@ export async function updateArtwork(id: string, formData: FormData) {
 
   const title = field(formData, "title");
   if (!title) throw new Error("Title is required");
-  const artistId = field(formData, "artist_id");
-  if (!artistId) throw new Error("Artist is required");
+  const artistId = await resolveArtistId(supabase, formData);
 
   const submittedSlug = field(formData, "slug");
   const baseSlug = submittedSlug ?? slugify(title);

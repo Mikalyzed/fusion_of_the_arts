@@ -68,17 +68,28 @@ export function ArtworkForm({
             />
           </Field>
         )}
-        <Field label="Artist">
-          <Select name="artist_id" required defaultValue={initial?.artist_id ?? ""}>
-            <option value="" disabled>
-              Select an artist
-            </option>
+        <Field
+          label="Artist"
+          hint="Pick an existing artist, or type a new name below to create one on save."
+        >
+          <Select name="artist_id" defaultValue={initial?.artist_id ?? ""}>
+            <option value="">— Select an existing artist —</option>
             {artists.map((a) => (
               <option key={a.id} value={a.id}>
                 {a.full_name}
               </option>
             ))}
           </Select>
+        </Field>
+        <Field
+          label="…or add a new artist"
+          hint="Leave blank to use the dropdown selection above."
+        >
+          <TextInput
+            name="new_artist_name"
+            placeholder="New artist name"
+            autoComplete="off"
+          />
         </Field>
         <Field label="Description / story">
           <Textarea
