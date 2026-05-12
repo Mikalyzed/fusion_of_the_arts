@@ -3,10 +3,18 @@ import Image from "next/image";
 import { getArtworks, getCurrentExhibition } from "@/lib/supabase/queries";
 import { ArtworkCard } from "@/components/ArtworkCard";
 import { LiffeValues } from "@/components/LiffeValues";
-import { Marquee } from "@/components/Marquee";
 import { NowShowing } from "@/components/NowShowing";
 
 export const revalidate = 60;
+
+function shuffle<T>(arr: T[]): T[] {
+  const result = [...arr];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
 
 export default async function HomePage() {
   const [available, sold, currentExhibition] = await Promise.all([
@@ -14,55 +22,40 @@ export default async function HomePage() {
     getArtworks("sold"),
     getCurrentExhibition(),
   ]);
-  const featured = available.slice(0, 6);
+  const featured = shuffle(available).slice(0, 6);
   const recentlySold = sold.slice(0, 6);
 
   return (
     <div>
-      {/* Hero */}
-      <section className="relative mx-auto max-w-6xl px-6 min-h-[75vh] flex items-center py-24">
-        <div className="max-w-3xl w-full">
-          <Image
-            src="/logo.svg"
-            alt="Fusion of the Arts"
-            width={1200}
-            height={372}
-            priority
-            className="w-full max-w-[560px] h-auto"
-          />
-          <p className="mt-12 text-lg text-zinc-700 max-w-xl leading-relaxed">
-            Original paintings, mixed-media, and prints from working artists —{" "}
-            <span className="font-display italic text-zinc-900">
-              for the people who live with them.
-            </span>
-          </p>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Link
-              href="/art"
-              className="inline-flex items-center px-7 py-3.5 border border-zinc-900 text-[11px] tracking-[0.25em] uppercase hover:bg-zinc-900 hover:text-white transition-colors"
-            >
-              Browse Collection
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center px-7 py-3.5 border border-zinc-200 text-[11px] tracking-[0.25em] uppercase text-zinc-700 hover:border-zinc-900 hover:text-zinc-900 transition-colors"
-            >
-              Contact
-            </Link>
-          </div>
-        </div>
-        <div className="absolute right-6 bottom-12 hidden md:block text-right text-[10px] tracking-[0.3em] uppercase text-zinc-400 leading-relaxed">
-          Est.
-          <br />
-          MMXXVI
+      {/* Hero — image with buttons centered at the bottom */}
+      <section className="relative min-h-[80vh] md:min-h-[85vh] flex items-end justify-center overflow-hidden bg-zinc-900">
+        <Image
+          src="/hero-gallery.png"
+          alt="Gallery installation view"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
+        <div className="relative px-6 pb-14 md:pb-20 w-full flex flex-wrap gap-3 justify-center">
+          <Link
+            href="/art"
+            className="inline-flex items-center px-7 py-3.5 border border-white text-[11px] tracking-[0.25em] uppercase text-white hover:bg-white hover:text-zinc-900 transition-colors"
+          >
+            Browse Collection
+          </Link>
+          <Link
+            href="/contact"
+            className="inline-flex items-center px-7 py-3.5 border border-white/40 text-[11px] tracking-[0.25em] uppercase text-white/90 hover:border-white hover:text-white transition-colors"
+          >
+            Contact
+          </Link>
         </div>
       </section>
 
       {/* Now showing */}
       {currentExhibition && <NowShowing exhibition={currentExhibition} />}
-
-      {/* Marquee */}
-      <Marquee />
 
       {/* Featured works — magazine layout */}
       {featured.length > 0 && (

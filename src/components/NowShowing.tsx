@@ -4,41 +4,31 @@ import { formatDateRange } from "@/lib/format-date";
 
 export function NowShowing({ exhibition }: { exhibition: Exhibition }) {
   return (
-    <section className="border-y border-zinc-200 bg-zinc-50">
-      <div className="mx-auto max-w-6xl px-6 py-16 md:py-20 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-8 md:gap-12 items-center">
-        <div className="flex items-center gap-3">
-          <span className="relative flex h-2 w-2">
+    <section className="border-b border-zinc-200 bg-zinc-50">
+      <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between gap-4 sm:gap-6">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+          <span className="relative flex h-2 w-2 shrink-0">
             <span className="absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75 animate-ping" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600" />
           </span>
-          <span className="text-[11px] tracking-[0.3em] uppercase text-zinc-700">
+          <span className="text-[10px] tracking-[0.25em] uppercase text-zinc-700 shrink-0">
             Now showing
           </span>
-        </div>
-        <div>
-          <h2 className="text-3xl md:text-5xl tracking-tight leading-[1]">
-            <span className="font-display italic font-light">
-              {exhibition.title}
-            </span>
-          </h2>
-          <p className="mt-3 text-sm text-zinc-700">
-            {exhibition.curator && (
-              <>
-                Curated by{" "}
-                <span className="text-zinc-900">{exhibition.curator}</span>
-                {" · "}
-              </>
-            )}
-            <span className="text-zinc-600">
-              {formatDateRange(exhibition.starts_at, exhibition.ends_at)}
-            </span>
-          </p>
+          <span className="text-zinc-300 shrink-0 hidden sm:inline">·</span>
+          <span className="font-display italic text-base sm:text-lg text-zinc-900 truncate">
+            {exhibition.title}
+          </span>
+          <span className="text-zinc-300 shrink-0 hidden md:inline">·</span>
+          <span className="hidden md:inline text-xs text-zinc-600 truncate">
+            {exhibition.curator && <>Curated by {exhibition.curator} · </>}
+            {formatDateRange(exhibition.starts_at, exhibition.ends_at)}
+          </span>
         </div>
         <Link
           href={`/exhibitions/${exhibition.slug}`}
-          className="inline-flex items-center px-6 py-3 border border-zinc-900 text-[11px] tracking-[0.25em] uppercase hover:bg-zinc-900 hover:text-white transition-colors whitespace-nowrap"
+          className="text-[10px] tracking-[0.25em] uppercase text-zinc-700 hover:text-zinc-950 whitespace-nowrap"
         >
-          Visit exhibition
+          Visit →
         </Link>
       </div>
     </section>
