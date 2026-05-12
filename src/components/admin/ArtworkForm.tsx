@@ -1,4 +1,5 @@
 import { Field, TextInput, NumberInput, Textarea, Select, FormSection } from "./Field";
+import { SubmitButton } from "./SubmitButton";
 
 export type ArtworkFormData = {
   slug?: string | null;
@@ -232,12 +233,7 @@ export function ArtworkForm({
       </FormSection>
 
       <div className="flex justify-end">
-        <button
-          type="submit"
-          className="px-7 py-3 bg-zinc-900 text-white text-[11px] tracking-[0.25em] uppercase hover:bg-zinc-700 transition-colors"
-        >
-          {submitLabel}
-        </button>
+        <SubmitButton>{submitLabel}</SubmitButton>
       </div>
     </form>
   );
