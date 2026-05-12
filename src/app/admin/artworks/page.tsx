@@ -29,7 +29,23 @@ const STATUS_COLOR: Record<AdminArtworkRow["status"], string> = {
   archived: "bg-zinc-200 text-zinc-700",
 };
 
-export default async function AdminArtworksPage() {
+type View = "table" | "grid";
+
+function coverOf(a: AdminArtworkRow): string | null {
+  const c =
+    a.artwork_images.find((img) => img.is_cover) ??
+    [...a.artwork_images].sort((x, y) => x.position - y.position)[0];
+  return c?.public_url ?? null;
+}
+
+export default async function AdminArtworksPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ view?: string }>;
+}) {
+  const { view: viewParam } = await searchParams;
+  const view: View = viewParam === "grid" ? "grid" : "table";
+
   const supabase = createAdminClient();
   const { data, error } = await supabase
     .from("artworks")
@@ -59,7 +75,7 @@ export default async function AdminArtworksPage() {
 
   return (
     <div>
-      <header className="flex items-end justify-between gap-6">
+      <header className="flex items-end justify-between gap-6 flex-wrap">
         <div>
           <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-500">
             Inventory
@@ -68,7 +84,7 @@ export default async function AdminArtworksPage() {
             Artworks ({artworks.length})
           </h1>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <div className="flex gap-2 text-[10px] tracking-[0.2em] uppercase">
             {(
               ["draft", "available", "reserved", "sold", "archived"] as const
@@ -79,6 +95,28 @@ export default async function AdminArtworksPage() {
                 </span>
               ) : null,
             )}
+          </div>
+          <div className="inline-flex border border-zinc-300 text-[10px] tracking-[0.2em] uppercase">
+            <Link
+              href="/admin/artworks?view=table"
+              className={
+                view === "table"
+                  ? "bg-zinc-900 text-white px-3 py-1.5"
+                  : "px-3 py-1.5 text-zinc-600 hover:text-zinc-900"
+              }
+            >
+              Table
+            </Link>
+            <Link
+              href="/admin/artworks?view=grid"
+              className={
+                view === "grid"
+                  ? "bg-zinc-900 text-white px-3 py-1.5"
+                  : "px-3 py-1.5 text-zinc-600 hover:text-zinc-900"
+              }
+            >
+              Grid
+            </Link>
           </div>
           <Link
             href="/admin/artworks/new"
@@ -94,6 +132,49 @@ export default async function AdminArtworksPage() {
           No artworks yet. Drop images in <code>public/artworks/</code> and run{" "}
           <code>npm run import-art</code>.
         </p>
+      ) : view === "grid" ? (
+        <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
+          {artworks.map((a) => {
+            const cover = coverOf(a);
+            return (
+              <Link
+                key={a.id}
+                href={`/admin/artworks/${a.id}`}
+                className="group block"
+              >
+                <div className="relative aspect-square bg-zinc-100 overflow-hidden">
+                  {cover && (
+                    <Image
+                      src={cover}
+                      alt={a.title}
+                      fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      className="object-cover"
+                    />
+                  )}
+                  <span
+                    className={`absolute top-2 left-2 text-[9px] tracking-[0.2em] uppercase px-1.5 py-0.5 ${STATUS_COLOR[a.status]}`}
+                  >
+                    {a.status}
+                  </span>
+                </div>
+                <div className="mt-3">
+                  <p className="text-sm font-medium text-zinc-900 truncate group-hover:underline underline-offset-4 decoration-zinc-300">
+                    {a.title}
+                  </p>
+                  <p className="text-xs text-zinc-500 truncate mt-0.5">
+                    {a.artist?.full_name ?? "—"}
+                  </p>
+                  <p className="text-xs text-zinc-700 mt-1.5 tracking-wide">
+                    {a.price_cents != null
+                      ? formatPriceCents(a.price_cents)
+                      : "—"}
+                  </p>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       ) : (
         <div className="mt-8 bg-white border border-zinc-200">
           <table className="w-full text-sm">
@@ -110,11 +191,7 @@ export default async function AdminArtworksPage() {
             </thead>
             <tbody>
               {artworks.map((a) => {
-                const cover =
-                  a.artwork_images.find((img) => img.is_cover) ??
-                  [...a.artwork_images].sort(
-                    (x, y) => x.position - y.position,
-                  )[0];
+                const cover = coverOf(a);
                 return (
                   <tr
                     key={a.id}
@@ -122,9 +199,9 @@ export default async function AdminArtworksPage() {
                   >
                     <td className="py-2 pl-4 pr-2">
                       <div className="relative w-14 h-14 bg-zinc-100">
-                        {cover?.public_url && (
+                        {cover && (
                           <Image
-                            src={cover.public_url}
+                            src={cover}
                             alt={a.title}
                             fill
                             sizes="56px"
