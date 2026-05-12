@@ -175,8 +175,12 @@ export function ArtworkForm({
           <Field label="Ownership">
             <Select
               name="ownership"
-              defaultValue={initial?.ownership ?? "owned"}
+              required
+              defaultValue={initial?.ownership ?? ""}
             >
+              <option value="" disabled>
+                — Select ownership —
+              </option>
               <option value="owned">Owned</option>
               <option value="consignment">Consignment</option>
             </Select>

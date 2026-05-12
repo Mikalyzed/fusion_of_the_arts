@@ -99,9 +99,10 @@ function readStatus(formData: FormData, fallback: (typeof STATUS_VALUES)[number]
 
 function readOwnership(formData: FormData) {
   const v = field(formData, "ownership");
-  return OWNERSHIP_VALUES.includes(v as (typeof OWNERSHIP_VALUES)[number])
-    ? (v as (typeof OWNERSHIP_VALUES)[number])
-    : "owned";
+  if (!OWNERSHIP_VALUES.includes(v as (typeof OWNERSHIP_VALUES)[number])) {
+    throw new Error("Pick an ownership: Owned or Consignment");
+  }
+  return v as (typeof OWNERSHIP_VALUES)[number];
 }
 
 function readDate(formData: FormData, key: string): string | null {
