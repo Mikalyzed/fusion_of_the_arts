@@ -44,7 +44,7 @@ export default async function AdminArtworksPage({
   searchParams: Promise<{ view?: string }>;
 }) {
   const { view: viewParam } = await searchParams;
-  const view: View = viewParam === "grid" ? "grid" : "table";
+  const view: View = viewParam === "table" ? "table" : "grid";
 
   const supabase = createAdminClient();
   const { data, error } = await supabase
@@ -98,6 +98,16 @@ export default async function AdminArtworksPage({
           </div>
           <div className="inline-flex border border-zinc-300 text-[10px] tracking-[0.2em] uppercase">
             <Link
+              href="/admin/artworks"
+              className={
+                view === "grid"
+                  ? "bg-zinc-900 text-white px-3 py-1.5"
+                  : "px-3 py-1.5 text-zinc-600 hover:text-zinc-900"
+              }
+            >
+              Grid
+            </Link>
+            <Link
               href="/admin/artworks?view=table"
               className={
                 view === "table"
@@ -106,16 +116,6 @@ export default async function AdminArtworksPage({
               }
             >
               Table
-            </Link>
-            <Link
-              href="/admin/artworks?view=grid"
-              className={
-                view === "grid"
-                  ? "bg-zinc-900 text-white px-3 py-1.5"
-                  : "px-3 py-1.5 text-zinc-600 hover:text-zinc-900"
-              }
-            >
-              Grid
             </Link>
           </div>
           <Link
