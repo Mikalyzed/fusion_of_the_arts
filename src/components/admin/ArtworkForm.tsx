@@ -185,7 +185,7 @@ export function ArtworkForm({
 
       <FormSection title="Dates">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <Field label="Acquired" hint="When you got the piece">
+          <Field label="Date received" hint="When you got the piece">
             <TextInput
               name="acquired_at"
               type="date"

@@ -104,13 +104,68 @@ export default async function HomePage() {
         <LiffeValues />
       </section>
 
+      {/* Visit & consign */}
+      <section className="border-t border-zinc-200 py-24">
+        <div className="mx-auto max-w-6xl px-6">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-500">
+            03 · Get in touch
+          </p>
+          <h2 className="mt-3 text-4xl md:text-5xl tracking-tight leading-[1] font-light">
+            <span className="font-display italic">Visit,</span> inquire,
+            consign.
+          </h2>
+
+          <div className="mt-14 grid md:grid-cols-2 gap-10 md:gap-16">
+            <div className="border-t border-zinc-200 pt-8">
+              <p className="text-[10px] tracking-[0.3em] uppercase text-zinc-500 mb-4">
+                Collectors
+              </p>
+              <h3 className="text-2xl md:text-3xl font-display italic font-light text-zinc-900">
+                See the work in person.
+              </h3>
+              <p className="mt-5 text-zinc-700 leading-relaxed">
+                The gallery is open by appointment. We&apos;ll walk you through
+                the current show, talk about provenance, and help you find a
+                piece that fits your space.
+              </p>
+              <Link
+                href="/contact"
+                className="mt-8 inline-flex items-center px-7 py-3.5 border border-zinc-900 text-[11px] tracking-[0.25em] uppercase hover:bg-zinc-900 hover:text-white transition-colors"
+              >
+                Schedule a visit
+              </Link>
+            </div>
+
+            <div className="border-t border-zinc-200 pt-8">
+              <p className="text-[10px] tracking-[0.3em] uppercase text-zinc-500 mb-4">
+                Artists
+              </p>
+              <h3 className="text-2xl md:text-3xl font-display italic font-light text-zinc-900">
+                Submit your work.
+              </h3>
+              <p className="mt-5 text-zinc-700 leading-relaxed">
+                We take new artists on consignment a few times a year. Send a
+                portfolio link and a sentence or two about the work — we read
+                everything.
+              </p>
+              <Link
+                href="/contact"
+                className="mt-8 inline-flex items-center px-7 py-3.5 border border-zinc-300 text-[11px] tracking-[0.25em] uppercase text-zinc-700 hover:border-zinc-900 hover:text-zinc-900 transition-colors"
+              >
+                Submit a portfolio
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Recently sold */}
       {recentlySold.length > 0 && (
         <section className="border-t border-zinc-200 py-24">
           <div className="mx-auto max-w-6xl px-6 mb-12 flex items-end justify-between gap-6">
             <div>
               <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-500">
-                03 · Archive
+                04 · Archive
               </p>
               <h2 className="mt-3 text-4xl md:text-5xl tracking-tight leading-[1]">
                 <span className="font-display italic font-light">Recently</span>{" "}

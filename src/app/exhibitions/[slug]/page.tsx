@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getExhibitionBySlug } from "@/lib/supabase/queries";
 import { ArtworkCard } from "@/components/ArtworkCard";
@@ -37,53 +36,43 @@ export default async function ExhibitionDetailPage({
 
   return (
     <article>
-      <header className="mx-auto max-w-6xl px-6 pt-16 pb-12">
+      <header className="mx-auto max-w-3xl px-6 pt-12 pb-20 text-center">
         <Link
           href="/exhibitions"
           className="text-[11px] tracking-[0.25em] uppercase text-zinc-500 hover:text-zinc-900"
         >
           ← Exhibitions
         </Link>
-        <p className="mt-8 text-[11px] tracking-[0.3em] uppercase text-zinc-500">
-          {formatDateRange(e.starts_at, e.ends_at)}
-        </p>
-        <h1 className="mt-4 text-5xl md:text-7xl tracking-tight leading-[0.95]">
-          <span className="font-display italic font-light">{e.title}</span>
-        </h1>
-        {e.curator && (
-          <p className="mt-6 text-zinc-600">
-            Curated by{" "}
-            <span className="text-zinc-900">{e.curator}</span>
-          </p>
-        )}
-        {e.collaboration && (
-          <p className="mt-1 text-sm text-zinc-500">{e.collaboration}</p>
-        )}
-      </header>
 
-      {e.hero_image_url && (
-        <div className="relative w-full aspect-[3/1] bg-zinc-100 overflow-hidden">
-          <Image
-            src={e.hero_image_url}
-            alt={e.title}
-            fill
-            sizes="100vw"
-            className="object-cover"
-            priority
-          />
+        <div className="mt-16">
+          <p className="text-[10px] tracking-[0.4em] uppercase text-zinc-500">
+            {formatDateRange(e.starts_at, e.ends_at)}
+          </p>
+
+          <h1 className="mt-6 text-6xl md:text-7xl font-display italic font-light leading-[0.95] text-zinc-900">
+            {e.title}
+          </h1>
+
+          <div className="mt-12 mx-auto w-16 h-px bg-zinc-300" />
+
+          {e.curator && (
+            <p className="mt-10 text-[11px] tracking-[0.3em] uppercase text-zinc-700">
+              Curated by{" "}
+              <span className="text-zinc-900">{e.curator}</span>
+            </p>
+          )}
+          {e.collaboration && (
+            <p className="mt-4 text-sm text-zinc-500 max-w-md mx-auto leading-relaxed font-display italic">
+              {e.collaboration}
+            </p>
+          )}
+          {e.statement && (
+            <p className="mt-8 text-zinc-700 leading-relaxed max-w-xl mx-auto whitespace-pre-line">
+              {e.statement}
+            </p>
+          )}
         </div>
-      )}
-
-      {e.statement && (
-        <section className="mx-auto max-w-3xl px-6 py-16">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-zinc-500 mb-6">
-            Statement
-          </p>
-          <div className="text-zinc-700 leading-relaxed text-lg whitespace-pre-line">
-            {e.statement}
-          </div>
-        </section>
-      )}
+      </header>
 
       {e.works.length > 0 && (
         <section className="mx-auto max-w-6xl px-6 py-16 border-t border-zinc-200">

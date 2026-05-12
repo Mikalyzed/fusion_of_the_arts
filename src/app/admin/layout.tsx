@@ -18,6 +18,9 @@ export default function AdminLayout({
             Admin
           </Link>
           <nav className="flex items-center gap-6 text-[11px] tracking-[0.2em] uppercase text-zinc-600">
+            <Link href="/admin" className="hover:text-zinc-950">
+              Dashboard
+            </Link>
             <Link href="/admin/artworks" className="hover:text-zinc-950">
               Artworks
             </Link>
@@ -28,9 +31,6 @@ export default function AdminLayout({
               Exhibitions
             </Link>
           </nav>
-          <span className="ml-auto text-[10px] tracking-[0.2em] uppercase text-amber-700">
-            Localhost only — no auth yet
-          </span>
         </div>
       </div>
       <div className="mx-auto max-w-7xl px-6 py-10">{children}</div>
